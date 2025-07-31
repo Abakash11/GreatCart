@@ -1,0 +1,58 @@
+{% load static %}
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top bg-dark text-light py-4">
+    <div class="container">
+        <section class="footer-top d-flex flex-wrap justify-content-between align-items-center pb-3">
+            <div class="col-md-4 mb-3 text-center text-md-start">
+                <h5 class="fw-bold text-warning">Company Name</h5>
+                <p class="text-muted">&copy; 2025 Company Name. All Rights Reserved.</p>
+            </div>
+            <div class="col-md-4 mb-3 text-center">
+                <h5 class="fw-bold text-info">Contact Us</h5>
+                <p class="mb-1"><i class="fas fa-envelope text-danger"></i> info@pixsellz.io</p>
+                <p class="mb-1"><i class="fas fa-phone text-success"></i> +879-332-9375</p>
+                <p><i class="fas fa-map-marker-alt text-primary"></i> Street name 123, Avenue ABC</p>
+            </div>
+            <div class="col-md-4 mb-3 text-center text-md-end">
+                <h5 class="fw-bold text-primary">Payment Methods</h5>
+                <div class="payment-icons d-flex justify-content-center justify-content-md-end">
+                    <i class="fab fa-cc-visa fa-2x mx-2 text-light"></i>
+                    <i class="fab fa-cc-paypal fa-2x mx-2 text-light"></i>
+                    <i class="fab fa-cc-mastercard fa-2x mx-2 text-light"></i>
+                </div>
+            </div>
+        </section>
+    </div>
+</footer>
+
+<style>
+    .section-footer {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        box-shadow: 0px -5px 20px rgba(0, 0, 0, 0.3);
+        border-top: 3px solid #ffc107;
+    }
+    .footer-top h5 {
+        text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    }
+	.payment-icons{
+		margin-bottom: -1rem;
+		margin-right: 7.6rem;
+	}
+    .payment-icons i {
+		
+        transition: transform 0.3s ease-in-out;
+    }
+    .payment-icons i:hover {
+        transform: scale(1.2);
+    }
+    .footer-top p {
+        transition: color 0.3s ease-in-out;
+    }
+    .footer-top p:hover {
+        color: #ffc107;
+    }
+</style>
+
+</body>
+</html>

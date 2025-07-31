@@ -1,0 +1,173 @@
+{% load static %}
+
+<header class="section-header">
+    <!-- Top Navigation Bar -->
+    <nav class="navbar top-nav p-0 navbar-expand-sm navbar-dark bg-amazon-primary">
+        <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fas fa-globe mr-1"></i>English</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fas fa-dollar-sign mr-1"></i>USD</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fas fa-envelope mr-1"></i>Customer Service</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fas fa-phone mr-1"></i>24/7 Support</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Header -->
+    <section class="header-main border-bottom bg-amazon-secondary">
+        <div class="container">
+            <div class="row align-items-center py-2">
+                <!-- Logo -->
+                <div class="col-lg-2 col-md-3 col-6">
+                    <a href="{% url 'index' %}" class="brand-wrap">
+                        <img class="logo" src="{% static './images/logo.png' %}" alt="Logo" style="height: 40px;">
+                    </a>
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="col-lg-2 col-md-3 col-sm-4">
+                    <div class="category-wrap dropdown">
+                        <button class="btn btn-amazon-dropdown dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fas fa-bars mr-2"></i>All Categories
+                        </button>
+                        <div class="dropdown-menu amazon-dropdown-menu">
+                            {% for category_link in links %}
+                            <a class="dropdown-item" href="{{ category_link.get_url }}">{{ category_link.category_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="col-lg-6 col-md-8 col-sm-12">
+                    <form action="{% url 'search' %}" class="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control amazon-search-input" placeholder="Search products..." name='keyword'>
+                            <div class="input-group-append">
+                                <button class="btn btn-amazon-search" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User & Cart Section -->
+                <div class="col-lg-2 col-md-3 col-sm-12">
+                    <div class="d-flex justify-content-end align-items-center">
+                        {% if user.id is not None %}
+                        <div class="dropdown">
+                            <a class="btn btn-amazon-account dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                <span class="account-text">Hi,{{ user.first_name|truncatechars:3|upper }}</span>
+                            </a>
+                            <div class="dropdown-menu amazon-dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'dashbord' %}"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt mr-2"></i>Sign Out</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center">
+                            <a href="{% url 'login' %}" class="btn btn-amazon-account">
+                                <span class="small">Hello, Sign in</span><br>
+                                <strong>Account & Lists</strong>
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        <!-- Cart -->
+                        <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3 mt-2">
+                            {% if cart_count %}
+                            <span class="badge badge-pill badge-danger notify">{{ cart_count }}</span>
+                            <div class="icon icon-sm rounded-circle border suc_cart"><i class="fa fa-shopping-cart colour-red"></i></div>
+                            {% else %}
+                            <span class="badge badge-pill badge-danger notify">{{ cart_count }}</span>
+                            <div class="icon icon-sm rounded-circle border "><i class="fa fa-shopping-cart"></i></div>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+
+<style>
+    /* Amazon Color Scheme */
+    .bg-amazon-primary { background: #232f3e; }
+    .bg-amazon-secondary { background: #fafafa; }
+    .btn-amazon-dropdown { 
+        background: #37475A;
+        color: white;
+        border-radius: 4px 0 0 4px;
+    }
+    .btn-amazon-search {
+        background: #febd69;
+        color: #232f3e;
+        border-radius: 0 4px 4px 0;
+    }
+    .amazon-search-input {
+        border: 2px solid #febd69;
+        height: 40px;
+    }
+    .btn-amazon-account {
+        color: white;
+        background: #232f3e;
+        border: 1px solid #666;
+    }
+    .btn-amazon-cart {
+        color: white;
+        background: #232f3e;
+        position: relative;
+    }
+    .cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #f08804;
+    }
+    .amazon-dropdown-menu {
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn-amazon-dropdown:hover {
+        background: #485769;
+        color: white;
+    }
+    .btn-amazon-search:hover {
+        background: #f3a847;
+    }
+    .account-text {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+    .cart-icon {
+        position: relative;
+        display: inline-block;
+    }
+    .cart-text {
+        margin-left: 5px;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        .brand-wrap img {
+            height: 35px !important;
+        }
+        .btn-amazon-dropdown span {
+            display: none;
+        }
+    }
+</style>

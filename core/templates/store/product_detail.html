@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  
+<section class="section-content padding-y bg">
+    <div class="container">
+    
+    <!-- ============================ COMPONENT 1 ================================= -->
+    <div class="card">
+        <div class="row no-gutters">
+            <aside class="col-md-6">
+    <article class="gallery-wrap"> 
+        <div class="img-big-wrap main-img">
+          <center><img src="{{single_product.image.url}}"></center> 
+        </div> <!-- img-big-wrap.// -->
+      
+    </article> <!-- gallery-wrap .end// -->
+    <ul class="thumb">
+      <li>
+        <a href="{{single_product.image.url}}" target="main-img">
+          <img src="{{single_product.image.url}}" alt="">
+        </a>
+        {% for image in product_gallery %}
+        <a href="{{image.image.url}}" target="main-img">
+          <img src="{{image.image.url}}" alt="">
+        </a>
+        {% endfor %}
+        </li>
+    </ul>
+            </aside>
+            <main class="col-md-6 border-left">
+    <form action="{% url 'add_to_cart'  single_product.id %}" method="post">
+      {% csrf_token %}
+      <article class="content-body">
+      
+      <h2 class="title">{{single_product.product_name}}</h2>
+      <div class="stars">
+        
+      </div>
+      
+      <div class="mb-3"> 
+          <var class="price h4">${{single_product.price}}</var> 
+      </div> 
+      {{single_product.avg_rating}}
+      <p>{{single_product.descriptions}}</p>
+      
+      
+      <hr>
+          
+          <div class="row">
+              <div class="item-option-select">
+                  <h6>Choose Color</h6>
+                  {% if colour|length > 1 %}
+                  <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                    {% for i in colour %}
+                    <label class="btn btn-light">
+                        
+                      <input type="radio" name="radio_color" value="{{i|upper}}"> {{i|upper}}
+                        
+                    </label>
+                    {% endfor %}
+                  </div> 
+                  {% else %}
+                  <p>Color not available</p> 
+                    
+                  {% endif %}
+                  
+              </div>
+          </div> <!-- row.// -->
+          <div class="row">
+              <div class="item-option-select">
+                  <h6>Select Size</h6>
+                  {% if size|length > 1  %}
+                  <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                    {% for i in size  %}
+                    <label class="btn btn-light">
+                      <input type="radio" name="radio_size" value="{{i|upper}}">{{i|upper}}
+                    </label>
+                    
+                    {% endfor %}
+                    
+                  </div> 
+                  {% else %}
+                  <p>Size not available</p>
+                    
+                  {% endif %}
+                  
+                  
+                  
+              </div>
+          </div> <!-- row.// -->
+         
+
+          <hr>
+          {% if single_product.stock <= 0 %}
+          <p class="text-danger">Out of stock</p>
+          {% else %}
+            
+            <button type="submit"  class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </button>
+            
+          {% endif %}
+      </article> <!-- product-info-aside .// -->
+    </form>
+            </main> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+    <!-- ============================ COMPONENT 1 END .// ================================= -->
+
+<br><br>
+<div class="line" style="width: 100%; height: .2rem; background: #f82b2b;"></div>
+    <div class="row">
+        <div class="col-md-9">
+
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+<form action="{% url 'submitreview' single_product.id %}" method="POST">
+    {% csrf_token %}
+    <h5>Write YOUR Review</h5>
+    <div class="rating">
+        <label >HOW do you RATE this PRODUCT::</label>
+        <br>
+        <div class="stars">
+            <input type="radio" id="rating10" value="5" name="rating" ><label title="5" for="rating10"></label>
+            <input type="radio" id="rating9" value="4.5" name="rating" ><label title="4.5" for="rating9" class="half"></label>
+            <input type="radio" id="rating8" value="4" name="rating" ><label title="4" for="rating8"></label>
+            <input type="radio" id="rating7" value="3.5" name="rating" ><label title="3.5" for="rating7" class="half"></label>
+            <input type="radio" id="rating6" value="3" name="rating" ><label title="3" for="rating6"></label>
+            <input type="radio" id="rating5" value="2.5" name="rating" ><label title="2.5" for="rating5" class="half"></label>
+            <input type="radio" id="rating4" value="2" name="rating" ><label title="2" for="rating4"></label>
+            <input type="radio" id="rating3" value="1.5" name="rating" ><label title="1.5" for="rating3" class="half"></label>
+            <input type="radio" id="rating2" value="1" name="rating" ><label title="1" for="rating2"></label>
+            <input type="radio" id="rating1" value="0.5" name="rating" ><label title="0.5" for="rating1" class="half"></label>
+
+        </div>
+        <br><br>
+        Review Title:
+        <input type="text" class="form-control" name="subject" placeholder="Write your review here">
+        <br>
+        Review :
+        <textarea name="review" rows="4" cols="105"></textarea>
+        <br>
+        {% if user.is_authenticated %}
+          {% if is_orderd %}
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+          {%else%}
+          <p>First You Buy This {{single_product.product_name}}</p>
+          {% endif %}
+          
+          {% else %}
+          <p>You can not post review without login,<span><a href="{% url 'login' %}">Login Now</a></span></p>
+        {% endif %}
+        
+    </div>
+<br><br>
+</form>
+
+<header class="section-heading">
+    <h3>Customer Reviews </h3>  
+    
+</header>
+{% for review in reviews  %}
+<article class="box mb-3">
+  <div class="icontext w-100">
+      
+      <div class="text">
+          <span class="date text-muted float-md-right">
+            {% if review.updated_at %}
+            {{review.updated_at}}
+            {% else %}
+            {{review.created_at}}
+            {% endif %}
+          </span>  
+          <h6 class="mb-1">{{review.user.name|upper}}</h6>
+          <div>
+            <span>
+              <i  class="str fa fa-star{%if review.rating == 0.5%}-half {%elif review.rating < 1 %}-o  {%endif%}" area-hidden="true"></i>
+              <i  class="str fa fa-star{%if review.rating == 1.5%}-half {%elif review.rating < 2 %}-o  {%endif%}" area-hidden="true"></i>
+              <i  class="str fa fa-star{%if review.rating == 2.5%}-half {%elif review.rating < 3 %}-o {%endif%}" area-hidden="true"></i>
+              <i  class="str fa fa-star{%if review.rating == 3.5%}-half {%elif review.rating < 4 %}-o  {%endif%}" area-hidden="true"></i>
+              <i  class="str fa fa-star{%if review.rating == 4.5%}-half {%elif review.rating < 5 %}-o  {%endif%}" area-hidden="true"></i>
+            </span>
+          </div>
+      </div>
+  </div> <!-- icontext.// -->
+  
+  <div class="mt-3">
+    <h5>{{review.subject}}</h5>
+      <p>
+         {{review.review}}
+      </p>	
+  </div>
+</article>
+{% endfor %}
+
+
+
+
+</div> <!-- col.// -->
+</div> <!-- row.// -->
+</div>
+</section>
+
+
+<script>
+    setTimeout(function() {
+      var messages = document.querySelectorAll('.messages li');
+      messages.forEach(function(message) {
+        message.style.transition = 'opacity 0.5s ease';
+        message.style.opacity = '0';
+        setTimeout(function() {
+          message.remove();
+        }, 500); // matches the CSS transition duration
+      });
+    }, 5000); // 5000ms = 5 seconds
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const thumbnails = document.querySelectorAll('.thumb a');
+    const mainImage = document.querySelector('.main-img img');
+
+    thumbnails.forEach(function (thumb) {
+      thumb.addEventListener('click', function (e) {
+        e.preventDefault();
+        const newSrc = this.getAttribute('href');
+        mainImage.setAttribute('src', newSrc);
+      });
+    });
+  });
+  </script>
+  
+{% endblock content %}
+
+
+

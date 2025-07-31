@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+{% csrf_token %}
+ <form  method="POST" style="height: 100vh;">
+    {% csrf_token %}
+    {{message}}
+    <div class="d-flex justify-content-center mb-3">
+        <input type="text" name="otp_input" class="otp-input" maxlength="4" required>
+       
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary ">Verify OTP</button>
+    </div>
+</form>
+  
+{% endblock content %}
