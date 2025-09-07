@@ -1,6 +1,7 @@
 1. **Clone the repository**
 2. Create a virtual environment & activate
-```python -m venv venv
+```
+python -m venv venv
 # Windows
 venv\Scripts\activate
 # macOS/Linux
